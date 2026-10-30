@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mi Parque, Mi Hogar · Parque Illimani</title>
+<meta name="description" content="Mi parque, mi hogar: campaña comunitaria para cuidar y conservar el Parque Illimani." />
+<style>
+  :root {
+    /* Paleta tomada del póster */
+    --verde-oscuro: #1d5a2c;   /* "Parque" */
+    --verde: #5b8f2d;          /* "Mi Hogar" */
+    --verde-medio: #6a9a1f;    /* corazón / íconos */
+    --verde-claro: #94b862;    /* manchas de las esquinas */
+    --verde-suave: #c9dca5;
+    --verde-fondo: #e8efd3;
+    --oliva: #7a9a68;          /* pinceladas */
+    --oliva-oscuro: #3e5b1f;   /* textos de los pilares */
+    --crema: #faf6e8;          /* fondo del póster */
+    --blanco: #ffffff;
+    --marron: #8b5a3c;         /* troncos */
+    --madera: #bb7b50;         /* banca / mesa */
+    --texto: #34441c;
+    --texto-suave: #55633a;
+    --sombra: 0 10px 30px rgba(62, 91, 31, 0.12);
+    --radio: 18px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    background: var(--crema);
+    color: var(--texto);
+    line-height: 1.6;
+  }
+  .contenedor { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+  /* ===== LOGO ===== */
+  .logo { display: inline-flex; align-items: center; text-decoration: none; }
+  .logo img, .logo svg { display: block; height: 64px; width: auto; }
+  .logo .logo-svg { display: none; }
+  .logo-hero { display: block; margin: 0 auto; width: min(460px, 82%); }
+  .logo-hero img, .logo-hero svg { width: 100%; height: auto; display: block; }
+  .logo-hero .logo-svg { display: none; }
+  footer .logo img, footer .logo svg { height: 110px; }
+
+  /* ===== HEADER ===== */
+  header {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(250, 246, 232, 0.94);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--verde-suave);
+  }
+  .barra { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; }
+  nav a {
+    margin-left: 22px; text-decoration: none; color: var(--verde-oscuro);
+    font-weight: 700; font-size: 15px; transition: color .2s;
+  }
+  nav a:hover { color: var(--verde); }
+
+  /* ===== HERO ===== */
+  .hero {
+    position: relative; overflow: hidden;
+    background: var(--crema);
+    padding: 60px 0 70px;
+    text-align: center;
+  }
+  .hero::before, .hero::after {
+    content: ""; position: absolute; background: var(--verde-claro);
+  }
+  .hero::before { width: 300px; height: 460px; top: -120px; left: -130px; border-radius: 0 60% 70% 40% / 0 60% 40% 70%; }
+  .hero::after { width: 240px; height: 420px; top: -80px; right: -110px; border-radius: 60% 0 40% 70% / 40% 0 60% 70%; }
+  .hero .contenedor { position: relative; z-index: 1; }
+  .hero p.sub {
+    font-size: 1.2rem; color: var(--oliva-oscuro); font-weight: 600;
+    max-width: 620px; margin: 24px auto 30px;
+  }
+  .stats { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; margin-top: 20px; }
+  .stat { text-align: center; }
+  .stat .num { font-size: 2.4rem; font-weight: 800; color: var(--verde); }
+  .stat .etq { font-size: .9rem; color: var(--texto-suave); font-weight: 600; }
+
+  /* ===== SECCIONES ===== */
+  section { padding: 70px 0; }
+  section.alt { background: var(--verde-fondo); }
+  .etiqueta {
+    display: inline-block; font-size: .8rem; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase; color: var(--verde);
+    margin-bottom: 10px;
+  }
+  h2 {
+    font-size: clamp(1.7rem, 3.5vw, 2.4rem);
+    font-weight: 800; color: var(--verde-oscuro); line-height: 1.2; margin-bottom: 16px;
+  }
+  .lead { font-size: 1.1rem; color: var(--texto-suave); max-width: 720px; }
+
+  /* ===== TARJETAS ===== */
+  .grid { display: grid; gap: 24px; margin-top: 36px; }
+  .grid-3 { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+  .tarjeta {
+    background: var(--blanco); border-radius: var(--radio);
+    padding: 28px; box-shadow: var(--sombra);
+    border: 1px solid #eef0dc; transition: transform .25s, box-shadow .25s;
+  }
+  .tarjeta:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(62,91,31,.18); }
+  .tarjeta .icono {
+    width: 52px; height: 52px; border-radius: 14px;
+    background: var(--verde-fondo); display: flex; align-items: center; justify-content: center;
+    font-size: 1.6rem; margin-bottom: 16px;
+  }
+  .tarjeta h3 { font-size: 1.2rem; color: var(--oliva-oscuro); margin-bottom: 8px; }
+  .tarjeta p { color: var(--texto-suave); font-size: .98rem; }
+
+  /* Pincelada de los pilares (como en el póster) */
+  .pincel {
+    display: inline-block; background: var(--oliva); color: #fff;
+    font-weight: 700; font-size: 1.05rem; padding: 6px 26px 8px;
+    margin-bottom: 14px; border-radius: 6px 22px 8px 24px / 20px 8px 22px 6px;
+    transform: rotate(-1.5deg);
+  }
+
+  /* ===== BUYER PERSONA ===== */
+  .persona { display: grid; grid-template-columns: 1fr 1.4fr; gap: 32px; align-items: start; margin-top: 36px; }
+  .persona .foto {
+    background: linear-gradient(150deg, var(--verde), var(--verde-oscuro));
+    border-radius: var(--radio); padding: 40px 30px; color: #fff; text-align: center;
+  }
+  .persona .foto .avatar {
+    width: 90px; height: 90px; border-radius: 50%; background: rgba(255,255,255,.2);
+    margin: 0 auto 16px; display: flex; align-items: center; justify-content: center; font-size: 2.6rem;
+  }
+  .persona .foto h3 { font-size: 1.4rem; margin-bottom: 4px; }
+  .persona .foto .rol { opacity: .92; font-size: .95rem; }
+  .persona .detalle h4 { color: var(--verde); margin: 14px 0 6px; font-size: 1.05rem; }
+  .persona .detalle p { color: var(--texto-suave); }
+
+  /* ===== PLATAFORMAS ===== */
+  .plataforma { display: flex; gap: 14px; align-items: flex-start; }
+  .plataforma .icono { margin-bottom: 0; flex-shrink: 0; }
+
+  /* ===== PARRILLA ===== */
+  .filtros { display: flex; gap: 10px; flex-wrap: wrap; margin: 30px 0 20px; }
+  .filtros button {
+    border: 1.5px solid var(--verde-suave); background: var(--blanco);
+    color: var(--oliva-oscuro); font-weight: 600; padding: 9px 18px;
+    border-radius: 999px; cursor: pointer; font-size: .9rem; transition: all .2s;
+  }
+  .filtros button.activo, .filtros button:hover { background: var(--verde); color: #fff; border-color: var(--verde); }
+  .dia {
+    background: var(--blanco); border-radius: var(--radio); padding: 22px;
+    box-shadow: var(--sombra); border: 1px solid #eef0dc;
+    border-left: 5px solid var(--verde-claro);
+  }
+  .dia .cabecera { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
+  .dia .badge {
+    background: var(--verde-fondo); color: var(--verde-oscuro);
+    font-weight: 700; font-size: .78rem; padding: 4px 12px; border-radius: 999px;
+  }
+  .dia .badge.sem { background: #f1ecd6; color: var(--marron); }
+  .dia .tipo { font-size: .8rem; color: var(--texto-suave); font-weight: 600; }
+  .dia h3 { color: var(--oliva-oscuro); font-size: 1.1rem; margin-bottom: 6px; }
+  .dia .frase { color: var(--texto); font-style: italic; margin-bottom: 8px; }
+  .dia .invitacion { color: var(--verde); font-weight: 700; font-size: .92rem; }
+  .parrilla-grid { display: grid; gap: 18px; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+
+  /* ===== CTA ===== */
+  .cta {
+    background: linear-gradient(150deg, var(--verde-oscuro), var(--verde));
+    color: #fff; border-radius: 24px; padding: 50px 40px; text-align: center; margin-top: 40px;
+  }
+  .cta h3 { font-size: 1.7rem; margin-bottom: 12px; }
+  .cta p { opacity: .94; max-width: 560px; margin: 0 auto 24px; }
+  .boton {
+    display: inline-block; background: var(--madera); color: #fff;
+    font-weight: 700; padding: 14px 32px; border-radius: 999px;
+    text-decoration: none; transition: transform .2s, background .2s;
+  }
+  .boton:hover { transform: translateY(-2px); background: var(--marron); }
+
+  /* ===== REFERENCIAS ===== */
+  .referencia {
+    background: var(--blanco); border-radius: var(--radio); padding: 20px 24px;
+    box-shadow: var(--sombra); border: 1px solid #eef0dc;
+  }
+  .referencia strong { color: var(--verde-oscuro); display: block; margin-bottom: 4px; }
+  .referencia span { color: var(--texto-suave); font-size: .92rem; }
+
+  /* ===== FOOTER ===== */
+  .pasto {
+    height: 34px; margin-top: 0; background-repeat: repeat-x; background-size: 40px 34px; background-position: bottom;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 34'><path d='M0 34 L4 6 L9 34 Z M8 34 L15 2 L20 34 Z M19 34 L25 10 L30 34 Z M29 34 L35 4 L40 34 Z' fill='%235b8f2d'/></svg>");
+  }
+  footer { background: var(--verde-oscuro); color: var(--verde-fondo); padding: 40px 0; text-align: center; }
+  footer .logo { background: var(--crema); border-radius: 20px; padding: 10px 22px; }
+  footer p { margin-top: 18px; font-size: .9rem; opacity: .9; }
+
+  @media (max-width: 720px) {
+    nav { display: none; }
+    .persona { grid-template-columns: 1fr; }
+    .stats { gap: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== LOGO (se define una vez como dibujo vectorial de respaldo) ===== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="logo-mph" viewBox="0 0 400 300">
+    <!-- sol -->
+    <g stroke="#b5c84a" stroke-width="7" stroke-linecap="round">
+      <line x1="215" y1="10" x2="215" y2="22"/><line x1="185" y1="18" x2="192" y2="28"/>
+      <line x1="245" y1="18" x2="238" y2="28"/><line x1="268" y1="36" x2="258" y2="42"/>
+    </g>
+    <path d="M187 62 A28 28 0 0 1 243 62 Z" fill="#b5c84a"/>
+    <!-- colina -->
+    <path d="M195 100 Q255 30 320 85 Q345 105 372 130 Q300 118 200 135 Z" fill="#5b8f2d"/>
+    <path d="M175 120 Q240 98 330 118 Q250 128 175 130 Z" fill="#1d5a2c" opacity=".55"/>
+    <!-- banca -->
+    <g fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round">
+      <path d="M262 86 L330 82"/><path d="M264 98 L332 94"/><path d="M270 86 L270 112"/><path d="M326 82 L326 108"/>
+    </g>
+    <!-- árbol -->
+    <g fill="#1d5a2c">
+      <circle cx="135" cy="62" r="34"/><circle cx="105" cy="82" r="26"/><circle cx="168" cy="82" r="26"/><circle cx="135" cy="95" r="24"/>
+      <rect x="127" y="100" width="16" height="30" rx="4"/>
+    </g>
+    <g stroke="#fff" stroke-width="5" stroke-linecap="round" fill="none">
+      <path d="M135 126 L135 66"/><path d="M135 90 L112 72"/><path d="M135 80 L158 62"/>
+    </g>
+    <path d="M95 132 Q150 118 215 132 Q160 142 95 132 Z" fill="#5b8f2d"/>
+    <!-- hojas decorativas -->
+    <path d="M30 168 Q70 160 88 200 Q48 206 30 168 Z" fill="#1d5a2c"/>
+    <path d="M370 168 Q330 160 312 200 Q352 206 370 168 Z" fill="#5b8f2d"/>
+    <!-- texto -->
+    <text x="62" y="118" font-family="'Segoe UI',system-ui,sans-serif" font-weight="800" font-size="52" fill="#94b862">Mi</text>
+    <text x="200" y="196" text-anchor="middle" font-family="'Segoe UI',system-ui,sans-serif" font-weight="800" font-size="80" fill="#1d5a2c">Parque</text>
+    <text x="200" y="250" text-anchor="middle" font-family="'Segoe UI',system-ui,sans-serif" font-weight="800" font-size="54" fill="#5b8f2d">Mi Hogar</text>
+    <text x="200" y="285" text-anchor="middle" font-family="'Segoe UI',system-ui,sans-serif" font-style="italic" font-weight="600" font-size="21" fill="#1d5a2c">El Illimani también es tu hogar</text>
+    <path d="M85 292 Q200 298 315 292" stroke="#5b8f2d" stroke-width="3" fill="none" stroke-linecap="round"/>
+  </symbol>
+</svg>
+
+<!--
+  LOGO: guarda tu archivo del logo junto a este HTML con el nombre "logo.png".
+  Si existe, se usa automáticamente; si no, se muestra el dibujo vectorial de respaldo.
+-->
+
+<!-- ===== HEADER ===== -->
+<header>
+  <div class="contenedor barra">
+    <a href="#" class="logo" aria-label="Mi Parque Mi Hogar">
+      <img src="logo.png" alt="Logo Mi Parque, Mi Hogar" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" />
+      <svg class="logo-svg" viewBox="0 0 400 300" role="img" aria-label="Mi Parque, Mi Hogar"><use href="#logo-mph"/></svg>
+    </a>
+    <nav>
+      <a href="#proposito">Propósito</a>
+      <a href="#publico">Público</a>
+      <a href="#parrilla">Parrilla</a>
+      <a href="#accion">Acción</a>
+      <a href="#referentes">Referentes</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ===== HERO ===== -->
+<div class="hero">
+  <div class="contenedor">
+    <h1 class="sr-only">Mi Parque, Mi Hogar: el Illimani también es tu hogar</h1>
+    <div class="logo-hero">
+      <img src="logo.png" alt="Logo Mi Parque, Mi Hogar" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" />
+      <svg class="logo-svg" viewBox="0 0 400 300" role="img" aria-label="Mi Parque, Mi Hogar"><use href="#logo-mph"/></svg>
+    </div>
+    <p class="sub">Cuidarlo también es cuidarnos. Juntos recuperamos y conservamos nuestro Parque Illimani.</p>
+    <div class="stats">
+      <div class="stat"><div class="num">28</div><div class="etq">días de contenidos</div></div>
+      <div class="stat"><div class="num">3</div><div class="etq">plataformas</div></div>
+      <div class="stat"><div class="num">1</div><div class="etq">comunidad</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 01 · PROPÓSITO ===== -->
+<section id="proposito">
+  <div class="contenedor">
+    <span class="etiqueta">01 · El propósito</span>
+    <h2>Un parque cuidado empieza por quienes lo disfrutan.</h2>
+    <p class="lead">La campaña busca contribuir al cuidado y conservación del Parque Illimani mediante una estrategia de comunicación y participación comunitaria.</p>
+    <div class="grid grid-3">
+      <div class="tarjeta">
+        <span class="pincel">concientizar</span>
+        <div class="icono">🌱</div>
+        <h3>Promover el cuidado del parque</h3>
+        <p>Sobre la importancia de mantener los parques limpios y seguros.</p>
+      </div>
+      <div class="tarjeta">
+        <span class="pincel">participar</span>
+        <div class="icono">🤝</div>
+        <h3>Motivar a la comunidad</h3>
+        <p>Invitar a los vecinos a sumarse a jornadas de limpieza y actividades.</p>
+      </div>
+      <div class="tarjeta">
+        <span class="pincel">cuidar</span>
+        <div class="icono">💚</div>
+        <h3>Conservar el espacio limpio y seguro</h3>
+        <p>Evaluar si los resultados de la campaña responden a los objetivos propuestos.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 02 · PÚBLICO ===== -->
+<section id="publico" class="alt">
+  <div class="contenedor">
+    <span class="etiqueta">02 · A quién queremos llegar</span>
+    <h2>La transformación es colectiva.</h2>
+    <p class="lead">La comunicación está pensada para habitantes del sector que visitan el parque para encontrarse, caminar, jugar, hacer deporte o compartir con sus mascotas.</p>
+
+    <div class="persona">
+      <div class="foto">
+        <div class="avatar">🧑🏻‍🎓</div>
+        <h3>Daniela Rodríguez</h3>
+        <div class="rol">17 años · Estudiante y habitante cercana al Parque Illimani</div>
+      </div>
+      <div class="detalle">
+        <p>Lo visita para reunirse con sus amigos, caminar y realizar actividades recreativas.</p>
+        <h4>¿Qué necesita?</h4>
+        <p>Un parque limpio, seguro y agradable. Le gustaría recibir mensajes llamativos y fáciles de entender que animen a los vecinos a participar.</p>
+        <h4>Retos identificados</h4>
+        <p>Residuos en algunos espacios, deterioro de zonas del parque y poca participación de algunas personas en su cuidado.</p>
+      </div>
+    </div>
+
+    <div class="grid grid-3" style="margin-top:40px;">
+      <div class="tarjeta">
+        <div class="plataforma">
+          <div class="icono">📸</div>
+          <div><h3>Instagram</h3><p>Historias, carruseles, encuestas y reels para conectar e invitar a participar.</p></div>
+        </div>
+      </div>
+      <div class="tarjeta">
+        <div class="plataforma">
+          <div class="icono">👥</div>
+          <div><h3>Facebook</h3><p>Publicaciones informativas y mensajes para compartir con la comunidad vecinal.</p></div>
+        </div>
+      </div>
+      <div class="tarjeta">
+        <div class="plataforma">
+          <div class="icono">🎬</div>
+          <div><h3>TikTok</h3><p>Videos breves, retos, tendencias y contenidos educativos fáciles de replicar.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 03 · PARRILLA ===== -->
+<section id="parrilla">
+  <div class="contenedor">
+    <span class="etiqueta">03 · Parrilla de contenidos</span>
+    <h2>Un mes para cambiar hábitos.</h2>
+    <p class="lead">La programación se organiza en cuatro momentos: crear pertenencia, fortalecer la cultura de limpieza, promover la convivencia y movilizar a la comunidad para sostener el compromiso.</p>
+
+    <div class="filtros">
+      <button class="activo" data-semana="todas">Todos los días</button>
+      <button data-semana="1">Semana 1 · Pertenencia</button>
+      <button data-semana="2">Semana 2 · Limpieza</button>
+      <button data-semana="3">Semana 3 · Convivencia</button>
+      <button data-semana="4">Semana 4 · Acción</button>
+    </div>
+
+    <div class="parrilla-grid" id="parrillaGrid"></div>
+
+    <div class="cta" id="compromiso">
+      <h3>El reto es sencillo: deja el parque mejor de como lo encontraste.</h3>
+      <p>Una bolsa, una acción responsable y una invitación a alguien más pueden iniciar el cambio.</p>
+      <a href="#accion" class="boton">Me sumo al cuidado</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 04 · ACCIÓN ===== -->
+<section id="accion" class="alt">
+  <div class="contenedor">
+    <span class="etiqueta">04 · Pasa de la intención a la acción</span>
+    <h2>¿Cómo puedes cuidar tu parque?</h2>
+    <p class="lead">El cuidado del Illimani se construye con hábitos cotidianos. Elige una acción y conviértela en parte de tu próxima visita.</p>
+    <div class="grid grid-3">
+      <div class="tarjeta">
+        <div class="icono">🗑️</div>
+        <h3>Llévate tus residuos</h3>
+        <p>Usa las canecas disponibles y no dejes empaques ni botellas en el césped.</p>
+      </div>
+      <div class="tarjeta">
+        <div class="icono">🐾</div>
+        <h3>Cuida con tu mascota</h3>
+        <p>Recoge sus desechos y procura una convivencia respetuosa con los demás visitantes.</p>
+      </div>
+      <div class="tarjeta">
+        <div class="icono">🌿</div>
+        <h3>Respeta el espacio</h3>
+        <p>Cuida las zonas verdes, las bancas, las canchas y los elementos que compartimos.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 05 · REFERENTES ===== -->
+<section id="referentes">
+  <div class="contenedor">
+    <span class="etiqueta">05 · Referentes del proyecto</span>
+    <h2>Ideas que respaldan la campaña.</h2>
+    <p class="lead">Referencias incluidas en los documentos de trabajo del grupo.</p>
+    <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(300px,1fr));">
+      <div class="referencia"><strong>Alcaldía Mayor de Bogotá / IDRD</strong><span>Parque Illimaní: información y servicios. idrd.gov.co/parques/parque-illimani</span></div>
+      <div class="referencia"><strong>Secretaría Distrital de Ambiente (2020)</strong><span>Guía para el cuidado y conservación de los parques y espacios verdes urbanos en Bogotá.</span></div>
+      <div class="referencia"><strong>Mockus, A. (2002)</strong><span>Cultura ciudadana y comunicación. Revista Foro, (44), 18–24.</span></div>
+      <div class="referencia"><strong>UNESCO (2021)</strong><span>Educación ambiental para la sostenibilidad en espacios comunitarios.</span></div>
+      <div class="referencia"><strong>Kotler, P. y Lee, N. R. (2019)</strong><span>Social marketing: Behavior change for social good (6.ª ed.). SAGE Publications.</span></div>
+      <div class="referencia"><strong>Pérez, R. y López, M. (2018)</strong><span>El marketing social como herramienta para la participación ciudadana en la conservación del espacio público.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<div class="pasto" aria-hidden="true"></div>
+<footer>
+  <div class="contenedor">
+    <a href="#" class="logo" aria-label="Mi Parque Mi Hogar">
+      <img src="logo.png" alt="Logo Mi Parque, Mi Hogar" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" />
+      <svg class="logo-svg" viewBox="0 0 400 300" role="img" aria-label="Mi Parque, Mi Hogar"><use href="#logo-mph"/></svg>
+    </a>
+    <p>Cuidarlo también es cuidarnos 💚 · #MiParqueMiHogar #ParqueIllimani #Comunidad</p>
+  </div>
+</footer>
+
+<script>
+  const dias = [
+    {s:1, tipo:"Imagen / carrusel", titulo:"Sentido de pertenencia", frase:"“El Parque Illimani es de todos. Cuidarlo es tarea de cada uno.”", inv:"¿Qué es lo que más te gusta del parque?"},
+    {s:1, tipo:"Reel / TikTok", titulo:"Educación sobre residuos", frase:"“Un parque limpio refleja una gran comunidad. Usa las canecas y llévate tu basura.”", inv:"¡Comparte para que todos sumemos!"},
+    {s:1, tipo:"Infografía / carrusel", titulo:"Tenencia responsable", frase:"“Disfruta con tu peludo, pero no olvides recoger sus desechos. Cuidemos el césped.”", inv:"Etiqueta a tu amigo perruno."},
+    {s:1, tipo:"Historias con encuesta", titulo:"Escucha a la comunidad", frase:"“¿Qué pequeña acción crees que mejoraría nuestro parque hoy?”", inv:"Responde en la encuesta."},
+    {s:1, tipo:"Video dinámico de 15 s", titulo:"Acción colectiva", frase:"“Reto sencillo: deja el parque más limpio de lo que lo encontraste.”", inv:"¿Te sumas al reto?"},
+    {s:1, tipo:"Carrusel informativo", titulo:"Salud y bienestar", frase:"“Un parque limpio es salud, deporte y seguridad para nuestros niños.”", inv:"Deja un 💚 si apoyas el parque."},
+    {s:1, tipo:"Video emocional / imagen", titulo:"Orgullo comunitario", frase:"“El cambio empieza por pequeñas acciones. ¡El Illimani es nuestra casa!”", inv:"Comparte en tus historias."},
+    {s:2, tipo:"Fotografía / post", titulo:"Cuidado del entorno", frase:"“Tu paquete o botella no vuelan solos a la caneca. Recógelos al terminar tu parche.”", inv:"¿Nos ayudas a mantenerlo limpio?"},
+    {s:2, tipo:"Video POV / reacción", titulo:"Impacto de los plásticos", frase:"“Esto le pasa al pasto cuando dejamos plástico tirado días enteros. Cuidemos la naturaleza.”", inv:"Guarda este tip y aplícalo."},
+    {s:2, tipo:"Infografía simple", titulo:"Convivencia", frase:"“Los niños juegan en el césped. Mantenerlo limpio es proteger su salud.”", inv:"Comenta si estás de acuerdo."},
+    {s:2, tipo:"Historias con stickers", titulo:"Hábitos responsables", frase:"“¿Sueles llevar una bolsa para tus residuos cuando visitas el parque?”", inv:"Vota: Sí / A veces."},
+    {s:2, tipo:"Video corto de 15 s", titulo:"Separación de residuos", frase:"“Orgánica o reciclable: aprende en 10 segundos a usar bien las canecas del parque.”", inv:"Pásale este video a tu grupo."},
+    {s:2, tipo:"Carrusel de fotografías", titulo:"Inspiración", frase:"“El Parque Illimani limpio luce mil veces mejor. Cuidarlo vale totalmente la pena.”", inv:"¿Cuál es tu vista favorita?"},
+    {s:2, tipo:"Video con voz en off", titulo:"Cultura ciudadana", frase:"“El mejor ejemplo para los jóvenes es ver a los mayores cuidando lo que es de todos.”", inv:"Dale like si te unes."},
+    {s:3, tipo:"Imagen / fotografía", titulo:"Cuidado de infraestructura", frase:"“Canchas y bancas en buen estado son para el disfrute de todos. ¡No las rayes ni dañes!”", inv:"Menciona a tus amigos deportistas."},
+    {s:3, tipo:"Video divertido / educativo", titulo:"Mascotas", frase:"“Los perritos aman el Illimani. Llévalos con correa y no olvides la bolsa para sus heces.”", inv:"Comparte con otros dueños de perritos."},
+    {s:3, tipo:"Infografía / carrusel", titulo:"Cultura ciudadana", frase:"“Respeto, limpieza y buen uso: los tres pilares para disfrutar el parque en paz.”", inv:"Guarda esta publicación."},
+    {s:3, tipo:"Historias con caja de texto", titulo:"Participación vecinal", frase:"“¿Qué actividad o mejora te gustaría ver próximamente en el Parque Illimani?”", inv:"Escribe tu idea aquí."},
+    {s:3, tipo:"Video actuado / tendencia", titulo:"Humor y reflexión", frase:"“Cuando ves a alguien recoger su basura sin que nadie lo mire… ¡Eso es cultura!”", inv:"Etiqueta a tu parcero."},
+    {s:3, tipo:"Post motivacional", titulo:"Deporte y salud", frase:"“Hacer ejercicio al aire libre en un parque limpio mejora tu día al 100 %.”", inv:"¿A qué hora entrenas en el parque?"},
+    {s:3, tipo:"Video o fotografía", titulo:"Agradecimiento", frase:"“Gracias a cada vecino que recoge su basura y cuida nuestras zonas verdes. ¡Son cracks!”", inv:"Envía un aplauso a la comunidad."},
+    {s:4, tipo:"Imagen / ilustración", titulo:"Unión vecinal", frase:"“Unidos podemos hacer del Illimani un parque más limpio y seguro para Ciudad Bolívar.”", inv:"Únete a la iniciativa comentando."},
+    {s:4, tipo:"Video tipo vlog", titulo:"Mini documental", frase:"“Así cuidamos nuestro parque esta semana. Un pequeño esfuerzo de todos hace un gran cambio.”", inv:"Comparte con todo el barrio."},
+    {s:4, tipo:"Carrusel verde", titulo:"Ecología urbana", frase:"“Las zonas verdes del Illimani nos dan aire. Protegerlas es proteger nuestro entorno.”", inv:"Deja una hoja si amas la naturaleza."},
+    {s:4, tipo:"Historias con votación", titulo:"Compromiso comunitario", frase:"“¿Te comprometes a cuidar el Parque Illimani este fin de semana?”", inv:"¡Vota SÍ!"},
+    {s:4, tipo:"Video dinámico", titulo:"Tips rápidos", frase:"“Bolsa para basura, termo reutilizable y bolsa para mascotas: tu kit básico para visitar el Illimani.”", inv:"Guarda el kit para tu próxima visita."},
+    {s:4, tipo:"Infografía", titulo:"Futuro de la comunidad", frase:"“El parque que cuidemos hoy será el espacio que disfruten nuestras futuras generaciones.”", inv:"Comenta si apoyas."},
+    {s:4, tipo:"Video recap / carrusel", titulo:"Cierre y agradecimiento", frase:"“¡Un mes cuidando el Parque Illimani juntos! Gracias a quienes sumaron su grano de arena.”", inv:"Comparte el logro en tus historias."}
+  ];
+
+  const grid = document.getElementById('parrillaGrid');
+  const semanas = {1:"Semana 1 · Pertenencia",2:"Semana 2 · Limpieza",3:"Semana 3 · Convivencia",4:"Semana 4 · Acción"};
+
+  function render(filtro) {
+    grid.innerHTML = '';
+    dias.forEach((d, i) => {
+      if (filtro !== 'todas' && d.s !== Number(filtro)) return;
+      const n = i + 1;
+      const el = document.createElement('div');
+      el.className = 'dia';
+      el.innerHTML = `
+        <div class="cabecera">
+          <span class="badge">DÍA ${String(n).padStart(2,'0')}</span>
+          <span class="badge sem">${semanas[d.s]}</span>
+          <span class="tipo">${d.tipo}</span>
+        </div>
+        <h3>${d.titulo}</h3>
+        <p class="frase">${d.frase}</p>
+        <p class="invitacion">${d.inv}</p>`;
+      grid.appendChild(el);
+    });
+  }
+
+  document.querySelectorAll('.filtros button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filtros button').forEach(b => b.classList.remove('activo'));
+      btn.classList.add('activo');
+      render(btn.dataset.semana);
+    });
+  });
+
+  render('todas');
+</script>
+</body>
+</html>
